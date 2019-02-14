@@ -32,12 +32,12 @@ import org.reactome.release.common.database.InstanceEditUtils;
 /**
  *
  * @author jcook
- * 
+ *
  * The Java version of infer_events.pl -- The gist of this module is that it looks at all existing Human ReactionlikeEvent (RlE) instances (mostly Reactions and BlackBoxEvents) in the Test_Reactome database,
  * and attempts to computationally infer them in each of Reactome's model organisms. Each RlE is broken down into its primary components (input, output, catalyst, and regulator), which are themselves broken
  * into their PhysicalEntity subunits. The homology data used for the inference process currently comes from Ensembl Compara and is generated during the 'Orthopairs' step of the Reactome release process.
- * After all inference attempts for each RlE has been completed in an organism, the pathways that contain the reactions are filled with these newly inferred ones. 
- * 
+ * After all inference attempts for each RlE has been completed in an organism, the pathways that contain the reactions are filled with these newly inferred ones.
+ *
  *
  */
 
@@ -50,10 +50,11 @@ public class EventsInferrer
 	private static GKInstance speciesInst;
 	private static Map<GKInstance,GKInstance> manualEventToNonHumanSource = new HashMap<GKInstance,GKInstance>();
 	private static List<GKInstance> manualHumanEvents = new ArrayList<GKInstance>();
+	private static Integer nullCount = 0;
 
 	@SuppressWarnings("unchecked")
 	public static void inferEvents(Properties props, String pathToConfig, String species) throws Exception
-	{	
+	{
 		logger.info("Preparing DB Adaptor and setting project variables");
 		// Set up DB adaptor using config.properties file
 		String username = props.getProperty("username");
@@ -61,19 +62,19 @@ public class EventsInferrer
 		String database = props.getProperty("database");
 		String host = props.getProperty("host");
 		int port = Integer.valueOf(props.getProperty("port"));
-		
+
 		dbAdaptor = new MySQLAdaptor(host, database, username, password, port);
 		setDbAdaptors(dbAdaptor);
-		
+
 		releaseVersion = props.getProperty("releaseNumber");
 		String pathToOrthopairs = props.getProperty("pathToOrthopairs");
 		String pathToSpeciesConfig = props.getProperty("pathToSpeciesConfig");
 		String dateOfRelease = props.getProperty("dateOfRelease");
 		int personId = Integer.valueOf(props.getProperty("personId"));
 		setReleaseDates(dateOfRelease);
-		
+
 		SkipInstanceChecker.getSkipList("normal_event_skip_list.txt");
-		
+
 		JSONParser parser = new JSONParser();
 		Object obj = parser.parse(new FileReader(pathToSpeciesConfig));
 		JSONObject jsonObject = (JSONObject) obj;
@@ -87,7 +88,7 @@ public class EventsInferrer
 		String refDbUrl = (String) refDb.get("url");
 		String refDbProteinUrl = (String) refDb.get("access");
 		String refDbGeneUrl = (String) refDb.get("ensg_access");
-		
+
 		// Creates two files that a) list reactions that are eligible for inference and b) those that are successfully inferred
 		String eligibleFilename = "eligible_" + species	+ "_75.txt";
 		String inferredFilename = "inferred_" + species + "_75.txt";
@@ -113,7 +114,7 @@ public class EventsInferrer
 		EWASInferrer.fetchAndSetUniprotDbInstance();
 		EWASInferrer.createEnsemblProteinDbInstance(speciesName, refDbUrl, refDbProteinUrl);
 		EWASInferrer.createEnsemblGeneDBInstance(speciesName, refDbUrl, refDbGeneUrl);
-		
+
 		JSONObject altRefDbJSON = (JSONObject) speciesObject.get("alt_refdb");
 		if (altRefDbJSON != null)
 		{
@@ -149,7 +150,7 @@ public class EventsInferrer
 		}
 		// For now sort the instances by DB ID so that it matches the Perl sequence
 		Collections.sort(dbids);
-		
+
 		for (Long dbid : dbids)
 		{
 			GKInstance reactionInst = reactionMap.get(dbid);
@@ -172,10 +173,14 @@ public class EventsInferrer
 				continue;
 			}
 			// This Reaction doesn't already exist for this species, and an orthologous inference will be attempted.
-			
+
 			try {
 				logger.info("Attempting to infer " + reactionInst);
 				ReactionInferrer.inferReaction(reactionInst);
+			} catch (NullPointerException e) {
+				// These nullPointerExceptions appear since sometimes Homologs exist in PANTHER files, but not from Ensembl's Biomart
+				// TODO: Proper handling of these
+				nullCount++;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -185,18 +190,19 @@ public class EventsInferrer
 		outputReport(species);
 		resetVariables();
 		System.gc();
+		logger.warn("NullPointer Exceptions found: " + nullCount);
 		logger.info("Finished orthoinference of " + speciesName + ".");
 	}
 
-	private static void setReleaseDates(String dateOfRelease) 
+	private static void setReleaseDates(String dateOfRelease)
 	{
 		ReactionInferrer.setReleaseDate(dateOfRelease);
 		HumanEventsUpdater.setReleaseDate(dateOfRelease);
-	
+
 	}
 
 	@SuppressWarnings("unchecked")
-	private static List<GKInstance> checkIfPreviouslyInferred(GKInstance reactionInst, String attribute, List<GKInstance> previouslyInferredInstances) throws InvalidAttributeException, Exception 
+	private static List<GKInstance> checkIfPreviouslyInferred(GKInstance reactionInst, String attribute, List<GKInstance> previouslyInferredInstances) throws InvalidAttributeException, Exception
 	{
 		for (GKInstance attributeInst : (Collection<GKInstance>) reactionInst.getAttributeValuesList(attribute))
 		{
@@ -222,9 +228,9 @@ public class EventsInferrer
 		String results = "hsap to " + species + ":\t" + inferredCount + " out of " + eligibleCount + " eligible reactions (" + String.format("%.2f", percentInferred) + "%)\n";
 		Files.write(Paths.get(reportFilename), results.getBytes(), StandardOpenOption.APPEND);
 	}
-	
+
 	// Statically store the adaptor variable in each class
-	private static void setDbAdaptors(MySQLAdaptor dbAdaptor2) 
+	private static void setDbAdaptors(MySQLAdaptor dbAdaptor2)
 	{
 		ReactionInferrer.setAdaptor(dbAdaptor);
 		SkipInstanceChecker.setAdaptor(dbAdaptor);
@@ -232,7 +238,7 @@ public class EventsInferrer
 		OrthologousEntityGenerator.setAdaptor(dbAdaptor);
 		EWASInferrer.setAdaptor(dbAdaptor);
 		HumanEventsUpdater.setAdaptor(dbAdaptor);
-		
+
 	}
 
 	// Read the species-specific orthopair 'mapping' file, and create a HashMap with the contents
@@ -282,7 +288,7 @@ public class EventsInferrer
 		summationInst.addAttributeValue(text, summationText);
 		summationInst.addAttributeValue(_displayName, summationText);
 		summationInst = InstanceUtilities.checkForIdenticalInstances(summationInst);
-		
+
 		ReactionInferrer.setSummationInstance(summationInst);
 		HumanEventsUpdater.setSummationInstance(summationInst);
 	}
@@ -300,8 +306,8 @@ public class EventsInferrer
 		ReactionInferrer.setEvidenceTypeInstance(evidenceTypeInst);
 		HumanEventsUpdater.setEvidenceTypeInstance(evidenceTypeInst);
 	}
-	
-	private static void setInstanceEdits(int personId) throws Exception 
+
+	private static void setInstanceEdits(int personId) throws Exception
 	{
 		instanceEditInst = InstanceEditUtils.createInstanceEdit(dbAdaptor, personId, "org.reactome.orthoinference");
 		InstanceUtilities.setInstanceEdit(instanceEditInst);
@@ -309,9 +315,9 @@ public class EventsInferrer
 		EWASInferrer.setInstanceEdit(instanceEditInst);
 		HumanEventsUpdater.setInstanceEdit(instanceEditInst);
 	}
-	
+
 	// Reduce memory usage after species inference complete
-	private static void resetVariables() 
+	private static void resetVariables()
 	{
 		ReactionInferrer.resetVariables();
 		OrthologousEntityGenerator.resetVariables();
