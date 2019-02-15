@@ -30,7 +30,7 @@ public class ReactionInferrer {
 	private static Integer eligibleCount = 0;
 	private static Integer inferredCount = 0;
 	private static List<GKInstance> inferrableHumanEvents = new ArrayList<GKInstance>();
-	
+
 	// Infers PhysicalEntity instances of input, output, catalyst activity, and regulations that are associated with incoming reactionInst.
 	public static void inferReaction(GKInstance reactionInst) throws InvalidAttributeException, Exception
 	{
@@ -89,7 +89,8 @@ public class ReactionInferrer {
 								infReactionInst.addAttributeValue(releaseDate, dateOfRelease);
 							}
 							// FetchIdenticalInstances would just return the instance being inferred. Since this step is meant to always
-							// add a new inferred instance, the storeInstance method is just called here. 
+							// add a new inferred instance, the storeInstance method is just called here.
+							StableIdentiferGenerator.generateOrthologousStableId(infReactionInst, reactionInst);
 							dba.storeInstance(infReactionInst);
 							logger.info("\tInference complete -- " + infReactionInst + " inserted");
 							if (infReactionInst.getSchemClass().isValidAttribute(inferredFrom))
@@ -110,7 +111,8 @@ public class ReactionInferrer {
 								logger.info("\t" + inferredRegulations.size() + " regulators inferred");
 								for (GKInstance infRegulation : inferredRegulations)
 								{
-									infRegulation = InstanceUtilities.checkForIdenticalInstances(infRegulation);
+									System.out.println("Dont forget to check regulations");
+									infRegulation = InstanceUtilities.checkForIdenticalInstances(infRegulation, null);
 									infReactionInst.addAttributeValue("regulatedBy", infRegulation);
 									dba.updateInstanceAttribute(infReactionInst, "regulatedBy");
 								}
@@ -187,7 +189,8 @@ public class ReactionInferrer {
 				}
 				infCatalystInst.addAttributeValue(activeUnit, activeUnits);
 				infCatalystInst.addAttributeValue(_displayName, catalystInst.getAttributeValue(_displayName));
-				infCatalystInst = InstanceUtilities.checkForIdenticalInstances(infCatalystInst);
+				System.out.println("Dont forget to check catalyst instances");
+				infCatalystInst = InstanceUtilities.checkForIdenticalInstances(infCatalystInst, null);
 				inferredCatalyst.put(catalystInst, infCatalystInst);
 				infReactionInst.addAttributeValue(catalystActivity, infCatalystInst);
 			} 

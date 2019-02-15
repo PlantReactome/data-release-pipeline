@@ -11,7 +11,8 @@ import java.util.Map;
 public class StableIdentiferGenerator {
 
     private static String speciesAbbreviation = null;
-    public static void generateOrthologousStableId(GKInstance infReactionInst) {
+    public static void generateOrthologousStableId(GKInstance inferredInst, GKInstance stableIdentifierInst) {
+
 
 
     }

@@ -279,7 +279,7 @@ public class EventsInferrer
 		speciesInst.addAttributeValue(created, instanceEditInst);
 		speciesInst.addAttributeValue(name, toSpeciesLong);
 		speciesInst.addAttributeValue(_displayName, toSpeciesLong);
-		speciesInst = InstanceUtilities.checkForIdenticalInstances(speciesInst);
+		speciesInst = InstanceUtilities.checkForIdenticalInstances(speciesInst, null);
 		logger.info("Species instance is " + speciesInst);
 		OrthologousEntityGenerator.setSpeciesInstance(speciesInst);
 		EWASInferrer.setSpeciesInstance(speciesInst);
@@ -294,7 +294,7 @@ public class EventsInferrer
 		String summationText = "This event has been computationally inferred from an event that has been demonstrated in another species.<p>The inference is based on the homology mapping in Ensembl Compara. Briefly, reactions for which all involved PhysicalEntities (in input, output and catalyst) have a mapped orthologue/paralogue (for complexes at least 75% of components must have a mapping) are inferred to the other species. High level events are also inferred for these events to allow for easier navigation.<p><a href='/electronic_inference_compara.html' target = 'NEW'>More details and caveats of the event inference in Reactome.</a> For details on the Ensembl Compara system see also: <a href='http://www.ensembl.org/info/docs/compara/homology_method.html' target='NEW'>Gene orthology/paralogy prediction method.</a>";
 		summationInst.addAttributeValue(text, summationText);
 		summationInst.addAttributeValue(_displayName, summationText);
-		summationInst = InstanceUtilities.checkForIdenticalInstances(summationInst);
+		summationInst = InstanceUtilities.checkForIdenticalInstances(summationInst, null);
 
 		ReactionInferrer.setSummationInstance(summationInst);
 		HumanEventsUpdater.setSummationInstance(summationInst);
@@ -309,7 +309,7 @@ public class EventsInferrer
 		evidenceTypeInst.addAttributeValue(name, evidenceTypeText);
 		evidenceTypeInst.addAttributeValue(name, "IEA");
 		evidenceTypeInst.addAttributeValue(_displayName, evidenceTypeText);
-		evidenceTypeInst = InstanceUtilities.checkForIdenticalInstances(evidenceTypeInst);
+		evidenceTypeInst = InstanceUtilities.checkForIdenticalInstances(evidenceTypeInst, null);
 		ReactionInferrer.setEvidenceTypeInstance(evidenceTypeInst);
 		HumanEventsUpdater.setEvidenceTypeInstance(evidenceTypeInst);
 	}
