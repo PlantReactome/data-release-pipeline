@@ -19,6 +19,7 @@ import java.util.Properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.gk.database.StableIdentifierGenerator;
 import org.gk.model.GKInstance;
 import static org.gk.model.ReactomeJavaConstants.*;
 import org.gk.persistence.MySQLAdaptor;
@@ -93,12 +94,18 @@ public class EventsInferrer
 		String eligibleFilename = "eligible_" + species	+ "_75.txt";
 		String inferredFilename = "inferred_" + species + "_75.txt";
 		File eligibleFile = new File(eligibleFilename);
+		if (eligibleFile.exists()) {
+			eligibleFile.delete();
+		}
 		eligibleFile.createNewFile();
 		File inferredFile = new File(inferredFilename);
+		if (inferredFile.exists()) {
+			inferredFile.delete();
+		}
 		inferredFile.createNewFile();
 		ReactionInferrer.setEligibleFilename(eligibleFilename);
 		ReactionInferrer.setInferredFilename(inferredFilename);
-
+		StableIdentiferGenerator.setSpeciesAbbreviation((String) speciesObject.get("abbreviation"));
 		// Set static variables (DB/Species Instances, mapping files) that will be repeatedly used
 		setInstanceEdits(personId);
 		logger.info("Reading in Orthopairs files");
