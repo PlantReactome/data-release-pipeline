@@ -243,6 +243,7 @@ public class EventsInferrer
 		SkipInstanceChecker.setAdaptor(dbAdaptor);
 		InstanceUtilities.setAdaptor(dbAdaptor);
 		OrthologousEntityGenerator.setAdaptor(dbAdaptor);
+		StableIdentiferGenerator.setAdaptor(dbAdaptor);
 		EWASInferrer.setAdaptor(dbAdaptor);
 		HumanEventsUpdater.setAdaptor(dbAdaptor);
 
@@ -320,6 +321,7 @@ public class EventsInferrer
 		InstanceUtilities.setInstanceEdit(instanceEditInst);
 		OrthologousEntityGenerator.setInstanceEdit(instanceEditInst);
 		EWASInferrer.setInstanceEdit(instanceEditInst);
+		StableIdentiferGenerator.setInstanceEdit(instanceEditInst);
 		HumanEventsUpdater.setInstanceEdit(instanceEditInst);
 	}
 

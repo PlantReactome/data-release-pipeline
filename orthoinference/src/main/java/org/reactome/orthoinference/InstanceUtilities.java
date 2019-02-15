@@ -133,12 +133,7 @@ public class InstanceUtilities {
 			}
 		} else {
 			if (inferredInst.getSchemClass().isa(PhysicalEntity)) {
-				GKInstance stableIdentifierInst = (GKInstance) originalInst.getAttributeValue(stableIdentifier);
-				if (stableIdentifierInst != null) {
-					StableIdentiferGenerator.generateOrthologousStableId(inferredInst, stableIdentifierInst);
-				} else {
-					System.out.println("Null stableIdentifierInst");
-				}
+				inferredInst = StableIdentiferGenerator.generateOrthologousStableId(inferredInst, originalInst);
 			}
 			dba.storeInstance(inferredInst);
 			logger.info("\tNo identical instance found -- inserting " + inferredInst);
