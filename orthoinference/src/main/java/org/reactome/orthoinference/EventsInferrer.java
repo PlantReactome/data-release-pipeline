@@ -263,6 +263,7 @@ public class EventsInferrer
 	}
 
 	// Read the species-specific orthopair 'mapping' file, and create a HashMap with the contents
+	// TODO: test this for transcripts and genes
 	private static Map<String, String[]> readHomologueMappingFile(String toSpecies, String fromSpecies, String pathToOrthopairs) throws IOException
 	{
 		String orthopairsFileName = fromSpecies + "_" + toSpecies + "_mapping.txt";
