@@ -128,31 +128,34 @@ public class OrthologousEntityGenerator {
 				infDefinedSetInst.addAttributeValue(name, definedSetName);
 				
 				GKInstance compartmentInstGk = (GKInstance) ewasInst.getAttributeValue(compartment);
-				if (compartmentInstGk.getSchemClass().isa(Compartment)) {
-					infDefinedSetInst.addAttributeValue(compartment, ewasInst.getAttributeValue(compartment));
+				if (compartmentInstGk != null) {
+					if (compartmentInstGk.getSchemClass().isa(Compartment)) {
+						infDefinedSetInst.addAttributeValue(compartment, ewasInst.getAttributeValue(compartment));
+					} else {
+						GKInstance newCompartmentInst = InstanceUtilities.createCompartmentInstance(compartmentInstGk);
+						infDefinedSetInst.addAttributeValue(compartment, newCompartmentInst);
+					}
+
+					infDefinedSetInst.addAttributeValue(species, speciesInst);
+					infDefinedSetInst.addAttributeValue(hasMember, infEWASInstances);
+					String definedSetDisplayName = (String) infDefinedSetInst.getAttributeValue(name) + " [" + ((GKInstance) ewasInst.getAttributeValue(compartment)).getDisplayName() + "]";
+					infDefinedSetInst.setAttributeValue(_displayName, definedSetDisplayName);
+					// Caching based on an instance's defining attributes. This reduces the number of 'checkForIdenticalInstance' calls, which is slow.
+					String cacheKey = InstanceUtilities.getCacheKey((GKSchemaClass) infDefinedSetInst.getSchemClass(), infDefinedSetInst);
+					if (definedSetIdenticals.get(cacheKey) != null) {
+						infDefinedSetInst = definedSetIdenticals.get(cacheKey);
+					} else {
+						infDefinedSetInst = InstanceUtilities.checkForIdenticalInstances(infDefinedSetInst, ewasInst);
+						definedSetIdenticals.put(cacheKey, infDefinedSetInst);
+					}
+					infDefinedSetInst = InstanceUtilities.addAttributeValueIfNecessary(infDefinedSetInst, ewasInst, inferredFrom);
+					dba.updateInstanceAttribute(infDefinedSetInst, inferredFrom);
+					ewasInst = InstanceUtilities.addAttributeValueIfNecessary(ewasInst, infDefinedSetInst, inferredTo);
+					dba.updateInstanceAttribute(ewasInst, inferredTo);
+					homolEWASIdenticals.put(ewasInst, infDefinedSetInst);
 				} else {
-					GKInstance newCompartmentInst = InstanceUtilities.createCompartmentInstance(compartmentInstGk);
-					infDefinedSetInst.addAttributeValue(compartment, newCompartmentInst);
+					logger.info("\tMissing compartment for " + ewasInst + ". Skipping...");
 				}
-				
-				infDefinedSetInst.addAttributeValue(species, speciesInst);
-				infDefinedSetInst.addAttributeValue(hasMember, infEWASInstances);
-				String definedSetDisplayName = (String) infDefinedSetInst.getAttributeValue(name) + " [" +((GKInstance) ewasInst.getAttributeValue(compartment)).getDisplayName() + "]";
-				infDefinedSetInst.setAttributeValue(_displayName, definedSetDisplayName);
-				// Caching based on an instance's defining attributes. This reduces the number of 'checkForIdenticalInstance' calls, which is slow.
-				String cacheKey = InstanceUtilities.getCacheKey((GKSchemaClass) infDefinedSetInst.getSchemClass(), infDefinedSetInst);
-				if (definedSetIdenticals.get(cacheKey) != null)
-				{
-					infDefinedSetInst = definedSetIdenticals.get(cacheKey);
-				} else {
-					infDefinedSetInst = InstanceUtilities.checkForIdenticalInstances(infDefinedSetInst, ewasInst);
-					definedSetIdenticals.put(cacheKey, infDefinedSetInst);
-				}
-				infDefinedSetInst = InstanceUtilities.addAttributeValueIfNecessary(infDefinedSetInst, ewasInst, inferredFrom);
-				dba.updateInstanceAttribute(infDefinedSetInst, inferredFrom);
-				ewasInst = InstanceUtilities.addAttributeValueIfNecessary(ewasInst, infDefinedSetInst, inferredTo);
-				dba.updateInstanceAttribute(ewasInst, inferredTo);
-				homolEWASIdenticals.put(ewasInst, infDefinedSetInst);
 			} else if (infEWASInstances.size() == 1)
 			{
 				homolEWASIdenticals.put(ewasInst, infEWASInstances.get(0));
