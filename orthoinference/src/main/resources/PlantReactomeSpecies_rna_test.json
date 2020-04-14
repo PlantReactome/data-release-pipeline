@@ -22,19 +22,6 @@
       },
       "abbreviation": "ATH"
    },
-   "adur" : {
-      "refdb" : {
-         "access" : "http:\/\/peanutbase.org\/feature\/Arachis\/duranensis\/gene\/###ID###",
-         "dbname" : [
-            "PeanutBase_Ad"
-         ],
-         "url" : "http:\/\/peanutbase.org\/"
-      },
-      "name" : [
-         "Arachis duranensis"
-      ],
-      "abbreviation": "ADU"
-   },
    "osat" : {
       "name" : [
          "Oryza sativa"
@@ -50,5 +37,44 @@
          "url" : "http:\/\/ensembl.gramene.org"
       },
       "abbreviation": "OSA"
+   },
+   "taes" : {
+      "name" : [
+         "Triticum aestivum"
+      ],
+      "refdb" : {
+         "access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "dbname" : [
+            "ENSEMBL",
+            "Ensembl",
+            "ENSEMBL_Triticum_aestivum_PROTEIN"
+         ],
+         "ensg_access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "url" : "http:\/\/ensembl.gramene.org"
+      },
+      "abbreviation": "TAE"
+   },
+   "zmay" : {
+      "alt_refdb" : {
+         "access" : "http:\/\/www.maizegdb.org\/gene_center\/gene\/###ID###",
+         "dbname" : [
+            "MaizeGDB"
+         ],
+         "url" : "http:\/\/maizegdb.org\/"
+      },
+      "name" : [
+         "Zea mays"
+      ],
+      "refdb" : {
+         "access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "dbname" : [
+            "ENSEMBL",
+            "Ensembl",
+            "ENSEMBL_Zea_mays_PROTEIN"
+         ],
+         "ensg_access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "url" : "http:\/\/ensembl.gramene.org"
+      },
+      "abbreviation": "ZMA"
    }
 }
