@@ -10,13 +10,14 @@ cd $DIR
 ## set args - all required
 configPath="src/main/resources/config.properties"	# Path to main configuration file
 refSpecies="osat"	# Reference species (4-char abbv)
-#projSpecies=(atha)	# Projected species (4-char abbv); may contain multiple species, space-delimited
-projSpecies=(atha taes zmay)	# Projected species (4-char abbv); may contain multiple species, space-delimited
+projSpecies=(atha)	# Projected species (4-char abbv); may contain multiple species, space-delimited
+#projSpecies=(atha taes zmay)	# Projected species (4-char abbv); may contain multiple species, space-delimited
 
 ## Run orthoinference for each species
 for species in "${projSpecies[@]}"
 do
 	cmd="java -jar target/orthoinference-0.0.1-SNAPSHOT-jar-with-dependencies.jar $configPath $refSpecies $species > orthoinference_$species.out;"
+	#cmd="java -jar target/orthoinference-0.0.1-SNAPSHOT.jar $configPath $refSpecies $species > orthoinference_$species.out;"
 	echo $cmd
 	eval $cmd
 done

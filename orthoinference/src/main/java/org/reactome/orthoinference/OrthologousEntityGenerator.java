@@ -17,6 +17,7 @@ import org.gk.schema.GKSchemaClass;
 import org.gk.schema.InvalidAttributeException;
 import org.gk.schema.InvalidAttributeValueException;
 import org.gk.schema.SchemaClass;
+import org.reactome.core.model.OtherEntity;
 
 public class OrthologousEntityGenerator {
 	
@@ -86,12 +87,13 @@ public class OrthologousEntityGenerator {
 					}
 				// Handles SimpleEntities by returning the current instance. The idea behind this is that SimpleEntities wouldn't need
 				// to be inferred since they wouldn't change between species {Note from infer_events.pl -- David Croft}.
-				} else if (entityInst.getSchemClass().isa(SimpleEntity))
+                    // TODO: test this OtherEntity OR case
+				} else if (entityInst.getSchemClass().isa(SimpleEntity) || entityInst.getSchemClass().isa(OtherEntity))
 				{
-					logger.info("\tSimpleEntity instance");
+					logger.info("\tSimpleEntity (or OtherEntity) instance");
 					infEntityInst = entityInst;
 				} else {
-				logger.warn("Unknown PhysicalEntity class: " + entityInst.getClass());
+				logger.warn("Unknown PhysicalEntity class: " + entityInst.getClass()); // TODO: check logs for this
 				}
 				if (override)
 				{

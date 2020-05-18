@@ -14,6 +14,7 @@ public class SpeciesCheckUtility {
 	@SuppressWarnings("unchecked")
 	public static boolean checkForSpeciesAttribute(GKInstance entityInst) throws InvalidAttributeException, Exception
 	{
+		// TODO: test removing this first IF statement
 		if (entityInst.getSchemClass().isa(OtherEntity))
 		{
 			return false;

@@ -56,11 +56,12 @@ public class ReactionInferrer {
 			// This function finds the total number of distinct proteins associated with an instance, as well as the number that can be inferred.
 			// Total proteins are stored in reactionProteinCounts[0], inferrable proteins in [1], and the maximum number of homologues for any entity involved in index [2].
 			// Reactions with no proteins/EWAS (Total = 0) are not inferred.
+			// TODO: test removing this protein count filter (just here)
 			List<Integer> reactionProteinCounts = ProteinCountUtility.getDistinctProteinCounts(reactionInst);
 			int reactionTotalProteinCounts = reactionProteinCounts.get(0);
-			if (reactionTotalProteinCounts > 0) 
-			{
-				String eligibleEventName = reactionInst.getAttributeValue(DB_ID).toString() + "\t" + reactionInst.getDisplayName() + "\n";	
+			//if (reactionTotalProteinCounts > 0)
+			//{
+				String eligibleEventName = reactionInst.getAttributeValue(DB_ID).toString() + "\t" + reactionInst.getDisplayName() + "\n";
 				// Having passed all tests/filters until now, the reaction is recorded in the 'eligible reactions' file, meaning inference is continued.
 				eligibleCount++;
 				Files.write(Paths.get(eligibleFilehandle), eligibleEventName.getBytes(), StandardOpenOption.APPEND);
@@ -132,9 +133,9 @@ public class ReactionInferrer {
 				} else {
 					logger.info("\tInput inference unsuccessful -- terminating inference for " + reactionInst);
 				}
-			} else {
-				logger.info("\tNo distinct proteins found in instance -- terminating inference for " + reactionInst);
-			}
+			//} else {
+			//	logger.info("\tNo distinct proteins found in instance -- terminating inference for " + reactionInst);
+			//}
 		}
 	}
 	
