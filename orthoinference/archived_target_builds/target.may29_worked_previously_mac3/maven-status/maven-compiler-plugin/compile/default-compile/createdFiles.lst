@@ -1,0 +1,14 @@
+org/reactome/orthoinference/ProteinCountUtility.class
+org/reactome/orthoinference/EWASInferrer.class
+org/reactome/datafix/CandidateSetsConvertedToDefinedSetsSpeciesFix.class
+org/reactome/orthoinference/SkipInstanceChecker.class
+org/reactome/orthoinference/Main.class
+org/reactome/orthoinference/EventsInferrer.class
+org/reactome/orthoinference/SpeciesCheckUtility.class
+org/reactome/orthoinference/StableIdentifierGenerator.class
+org/reactome/orthoinference/OrthologousPathwayDiagramGenerator.class
+org/reactome/datafix/OrthologousEventsFix.class
+org/reactome/orthoinference/OrthologousEntityGenerator.class
+org/reactome/orthoinference/InstanceUtilities.class
+org/reactome/orthoinference/HumanEventsUpdater.class
+org/reactome/orthoinference/ReactionInferrer.class

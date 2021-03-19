@@ -1,0 +1,80 @@
+{
+   "atha" : {
+      "alt_refdb" : {
+         "access" : "http:\/\/www.arabidopsis.org\/servlets\/TairObject?type=locus&name=###ID###",
+         "dbname" : [
+            "TAIR"
+         ],
+         "url" : "http:\/\/www.arabidopsis.org"
+      },
+      "name" : [
+         "Arabidopsis thaliana"
+      ],
+      "refdb" : {
+         "access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "dbname" : [
+            "ENSEMBL",
+            "Ensembl",
+            "ENSEMBL_Arabidopsis_thaliana_PROTEIN"
+         ],
+         "ensg_access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "url" : "http:\/\/ensembl.gramene.org"
+      },
+      "abbreviation": "ATH"
+   },
+   "osat" : {
+      "name" : [
+         "Oryza sativa"
+      ],
+      "refdb" : {
+         "access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "dbname" : [
+            "ENSEMBL",
+            "Ensembl",
+            "ENSEMBL_Oryza_sativa_PROTEIN"
+         ],
+         "ensg_access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "url" : "http:\/\/ensembl.gramene.org"
+      },
+      "abbreviation": "OSA"
+   },
+   "taes" : {
+      "name" : [
+         "Triticum aestivum"
+      ],
+      "refdb" : {
+         "access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "dbname" : [
+            "ENSEMBL",
+            "Ensembl",
+            "ENSEMBL_Triticum_aestivum_PROTEIN"
+         ],
+         "ensg_access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "url" : "http:\/\/ensembl.gramene.org"
+      },
+      "abbreviation": ""
+   },
+   "zmay" : {
+      "alt_refdb" : {
+         "access" : "http:\/\/www.maizegdb.org\/gene_center\/gene\/###ID###",
+         "dbname" : [
+            "MaizeGDB"
+         ],
+         "url" : "http:\/\/maizegdb.org\/"
+      },
+      "name" : [
+         "Zea mays"
+      ],
+      "refdb" : {
+         "access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "dbname" : [
+            "ENSEMBL",
+            "Ensembl",
+            "ENSEMBL_Zea_mays_PROTEIN"
+         ],
+         "ensg_access" : "http:\/\/ensembl.gramene.org\/Gene\/Summary?g=###ID###",
+         "url" : "http:\/\/ensembl.gramene.org"
+      },
+      "abbreviation": ""
+   }
+}

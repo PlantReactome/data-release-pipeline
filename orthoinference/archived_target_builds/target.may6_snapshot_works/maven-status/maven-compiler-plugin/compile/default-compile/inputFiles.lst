@@ -1,0 +1,14 @@
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/HumanEventsUpdater.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/Main.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/ReactionInferrer.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/datafix/OrthologousEventsFix.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/StableIdentifierGenerator.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/EWASInferrer.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/EventsInferrer.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/SpeciesCheckUtility.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/ProteinCountUtility.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/InstanceUtilities.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/SkipInstanceChecker.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/OrthologousEntityGenerator.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/datafix/CandidateSetsConvertedToDefinedSetsSpeciesFix.java
+/Users/preecej/Development/git/PlantReactome/data-release-pipeline/orthoinference/src/main/java/org/reactome/orthoinference/OrthologousPathwayDiagramGenerator.java
